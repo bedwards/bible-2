@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A 7-day deep study on burnout and restoration: what the mystics understood about exhaustion, the dark night, and finding sustainable fire.">
+    <title>Burnout and the Return to Life | 7-Day Study | The Kindled Path</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .study-hero { padding: calc(80px + var(--space-2xl)) var(--space-lg) var(--space-2xl); background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%); text-align: center; }
+        .study-hero-content { max-width: 700px; margin: 0 auto; }
+        .study-badge { display: inline-block; padding: var(--space-xs) var(--space-md); background: var(--color-gold-dark); color: var(--color-bg); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-lg); }
+        .study-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); color: var(--color-text); font-weight: 300; margin-bottom: var(--space-lg); }
+        .study-hero .lead { color: var(--color-text-light); font-size: 1.1rem; line-height: 1.8; margin-bottom: var(--space-xl); }
+        .study-meta { display: flex; justify-content: center; gap: var(--space-xl); color: var(--color-text-muted); font-size: 0.9rem; }
+        .day-nav { background: var(--color-bg-alt); padding: var(--space-md) var(--space-lg); position: sticky; top: 80px; z-index: 50; overflow-x: auto; }
+        .day-nav-inner { max-width: 800px; margin: 0 auto; display: flex; gap: var(--space-sm); justify-content: center; }
+        .day-btn { padding: var(--space-sm) var(--space-md); background: transparent; border: 1px solid var(--color-bg); color: var(--color-text-muted); font-size: 0.875rem; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; }
+        .day-btn:hover { border-color: var(--color-gold-dark); color: var(--color-gold); }
+        .day-btn.active { background: var(--color-gold-dark); border-color: var(--color-gold-dark); color: var(--color-bg); }
+        .day-btn.completed::after { content: " ✓"; color: var(--color-gold); }
+        .day-content { max-width: 800px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg); }
+        .day-section { display: none; }
+        .day-section.active { display: block; }
+        .day-header { margin-bottom: var(--space-2xl); }
+        .day-header h2 { font-family: var(--font-display); font-size: 1.75rem; color: var(--color-text); font-weight: 400; margin-bottom: var(--space-sm); }
+        .day-header .subtitle { color: var(--color-gold); font-size: 0.9rem; }
+        .reading-block { background: var(--color-bg-alt); padding: var(--space-xl); margin: var(--space-xl) 0; }
+        .reading-block h3 { color: var(--color-gold); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-md); }
+        .reading-block .scripture { font-family: var(--font-display); font-style: italic; font-size: 1.1rem; color: var(--color-text); line-height: 1.8; margin-bottom: var(--space-md); }
+        .reading-block cite { color: var(--color-text-muted); font-size: 0.875rem; }
+        .teaching-block { padding: var(--space-xl) 0; border-bottom: 1px solid var(--color-bg-alt); }
+        .teaching-block:last-child { border-bottom: none; }
+        .teaching-block h3 { font-family: var(--font-display); font-size: 1.25rem; color: var(--color-text); font-weight: 400; margin-bottom: var(--space-md); }
+        .teaching-block p { color: var(--color-text-light); line-height: 1.9; margin-bottom: var(--space-lg); }
+        .teaching-block ul { color: var(--color-text-light); line-height: 1.9; margin-left: var(--space-lg); margin-bottom: var(--space-lg); }
+        .reflection-block { background: linear-gradient(135deg, rgba(201, 169, 98, 0.1) 0%, transparent 100%); border: 1px solid var(--color-gold-dark); padding: var(--space-xl); margin: var(--space-xl) 0; }
+        .reflection-block h3 { color: var(--color-gold); font-size: 1rem; margin-bottom: var(--space-md); }
+        .reflection-block p { color: var(--color-text-light); line-height: 1.8; margin-bottom: var(--space-md); }
+        .reflection-block textarea { width: 100%; min-height: 100px; padding: var(--space-md); background: var(--color-bg); border: 1px solid var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 1rem; line-height: 1.7; resize: vertical; }
+        .reflection-block textarea::placeholder { color: var(--color-text-muted); }
+        .practice-block { background: var(--color-bg-alt); padding: var(--space-xl); margin: var(--space-xl) 0; border-left: 3px solid var(--color-gold); }
+        .practice-block h3 { color: var(--color-gold); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-md); }
+        .practice-block p { color: var(--color-text-light); line-height: 1.8; margin-bottom: var(--space-md); }
+        .practice-block p:last-child { margin-bottom: 0; }
+        .day-complete { text-align: center; padding: var(--space-2xl) 0; margin-top: var(--space-xl); border-top: 1px solid var(--color-bg-alt); }
+        .complete-btn { padding: var(--space-md) var(--space-2xl); background: var(--color-gold-dark); border: none; color: var(--color-bg); font-size: 1rem; cursor: pointer; transition: all 0.3s ease; }
+        .complete-btn:hover { background: var(--color-gold); }
+        .complete-btn.completed { background: transparent; border: 1px solid var(--color-gold); color: var(--color-gold); }
+        .next-day-link { display: block; margin-top: var(--space-md); color: var(--color-text-muted); font-size: 0.9rem; cursor: pointer; }
+        .next-day-link:hover { color: var(--color-gold); }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">The Kindled Path</a>
+            <button class="nav-toggle" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+            <ul class="nav-links">
+                <li><a href="scripture.html">Scripture</a></li>
+                <li><a href="deep-studies.html">Deep Studies</a></li>
+                <li><a href="why-now.html">Why Now</a></li>
+                <li><a href="martyrs.html">The Martyrs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="study-hero">
+        <div class="study-hero-content">
+            <span class="study-badge">7-Day Deep Study</span>
+            <h1>Burnout and the Return to Life</h1>
+            <p class="lead">You have nothing left for the ones you love. Creating meaning feels like another task you're failing at. The mystics knew this exhaustion. They called it the dark night of the soul — and they found the path through.</p>
+            <div class="study-meta">
+                <span>7 days</span>
+                <span>~15 min/day</span>
+                <span>Readings + Practices</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="day-nav">
+        <div class="day-nav-inner">
+            <button class="day-btn active" data-day="1">Day 1</button>
+            <button class="day-btn" data-day="2">Day 2</button>
+            <button class="day-btn" data-day="3">Day 3</button>
+            <button class="day-btn" data-day="4">Day 4</button>
+            <button class="day-btn" data-day="5">Day 5</button>
+            <button class="day-btn" data-day="6">Day 6</button>
+            <button class="day-btn" data-day="7">Day 7</button>
+        </div>
+    </nav>
+
+    <main class="day-content">
+
+        <!-- DAY 1 -->
+        <section class="day-section active" data-day="1">
+            <div class="day-header">
+                <h2>Day 1: Naming the Exhaustion</h2>
+                <p class="subtitle">What burnout actually is</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>The Body's Honest Response</h3>
+                <p>Burnout isn't laziness. It isn't weakness. It isn't a character flaw you need to overcome with more discipline. Burnout is the body's honest response to impossible demands — demands that may come from outside, but more often come from within.</p>
+                <p>You've been running on fumes for so long that fumes feel normal. The exhaustion goes deeper than sleep can reach. You wake up tired. You go to bed wired. The things that used to bring joy now feel like obligations.</p>
+                <p>This isn't a problem to be fixed with productivity tips or self-care rituals bolted onto an unchanged life. This is your soul telling you that something fundamental must change.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"On a dark night, Kindled in love with yearnings — oh, happy chance! — I went forth without being observed, My house being now at rest."</p>
+                <cite>— The Dark Night of the Soul, Juan de la Cruz</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>The Dark Night as Gift</h3>
+                <p>Juan de la Cruz, the sixteenth-century mystic, wrote of the "dark night of the soul" — a period when all the usual comforts and motivations fall away. Most people fear this night. They fight it with distractions, substances, endless activity.</p>
+                <p>But Juan called it a "happy chance." Why? Because the dark night strips away everything that is not essential. It forces us to stop. And in the stopping, something else becomes possible.</p>
+                <p>Your burnout may be the beginning of such a night. Not a punishment, but an invitation. Not the end of your path, but a turning point on it.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Reflection Questions</h3>
+                <p>How long have you been running on empty? What would you be forced to face if you truly stopped?</p>
+                <textarea placeholder="Write your reflection..." data-key="burnout-day1"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Today's Practice</h3>
+                <p><strong>Do Nothing for Ten Minutes.</strong> Not meditation. Not relaxation. Not "productive rest." Set a timer and do literally nothing. No phone, no book, no music. Just sit with whatever arises. Notice how difficult this is. Notice what the mind does when you refuse to feed it stimulation.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="1">Mark Day 1 Complete</button>
+                <span class="next-day-link" data-next="2">Continue to Day 2 →</span>
+            </div>
+        </section>
+
+        <!-- DAY 2 -->
+        <section class="day-section" data-day="2">
+            <div class="day-header">
+                <h2>Day 2: Subtraction, Not Addition</h2>
+                <p class="subtitle">The counter-intuitive path</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>The Addiction to More</h3>
+                <p>When we're burned out, our first instinct is often to add more — more self-care, more coping strategies, more techniques for managing stress. But this is adding more weight to an already overburdened system.</p>
+                <p>The mystics took the opposite approach. They subtracted. They let things fall away. They trusted that what remained after the subtraction would be enough — would, in fact, be more than enough.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"In detachment the spirit finds quiet and repose, for coveting nothing, nothing wearies it by elation, and nothing oppresses it by dejection, because it stands in the center of its own humility."</p>
+                <cite>— The Ascent of Mount Carmel, Juan de la Cruz</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>What Can Be Released</h3>
+                <p>Burnout often comes from living at the wrong level — expending energy on the surface while neglecting the depths. The more disconnected you are from your essential self, the more energy it takes to function. Reconnecting doesn't require adding activities; it requires stopping.</p>
+                <p>What commitments drain you without giving back? What obligations exist only because you've never questioned them? What mental burdens — grudges, worries, obsessive planning — consume energy without producing anything?</p>
+                <p>Juan speaks of "coveting nothing." This isn't about giving up desire for good things. It's about releasing the desperate grasping that exhausts us.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Reflection Questions</h3>
+                <p>What three things could you subtract from your life without genuine loss? What are you holding onto simply because letting go feels like failure?</p>
+                <textarea placeholder="Write your reflection..." data-key="burnout-day2"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Today's Practice</h3>
+                <p><strong>Cancel Something.</strong> Today, cancel or decline one thing you don't truly need to do. Not something essential — something optional that you've been doing out of habit, guilt, or fear of disappointing others. Notice how it feels to create space.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="2">Mark Day 2 Complete</button>
+                <span class="next-day-link" data-next="3">Continue to Day 3 →</span>
+            </div>
+        </section>
+
+        <!-- DAY 3 -->
+        <section class="day-section" data-day="3">
+            <div class="day-header">
+                <h2>Day 3: The Dark Night</h2>
+                <p class="subtitle">When even prayer fails</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>The Failure of Old Methods</h3>
+                <p>In the dark night, the methods that used to work stop working. Prayer feels hollow. Meditation brings no peace. The activities that once restored you now feel pointless. This is terrifying — but it's also necessary.</p>
+                <p>The old methods stopped working because you've outgrown them. They were training wheels, appropriate for an earlier stage. Now you're being forced to find a deeper source.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"The soul in this state of contemplation is learning new things and abandoning others. Its knowledge is being made dark, and it walks in darkness and doubt."</p>
+                <cite>— The Dark Night of the Soul, Juan de la Cruz</cite>
+            </div>
+
+            <div class="reading-block">
+                <h3>Second Reading</h3>
+                <p class="scripture">"This is the way by which God is leading you. Do not try to understand it. The cloud is meant to baffle the intellect. Let it. Walk forward anyway."</p>
+                <cite>— The Cloud of Unknowing</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>Walking Forward Anyway</h3>
+                <p>The author of The Cloud of Unknowing knew that spiritual growth often feels like regression. You're not losing your way — you're losing your old way, which is different.</p>
+                <p>The dark night is a tunnel, not a grave. It has an end, even when you can't see it. The mystics who wrote about it had passed through it. They wrote to tell you: keep going.</p>
+                <p>You don't need to understand what's happening. You don't need to feel connected or spiritual or peaceful. You just need to keep walking.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Reflection Questions</h3>
+                <p>What methods have stopped working for you? Can you accept their failure as a sign of growth rather than a sign that something is wrong with you?</p>
+                <textarea placeholder="Write your reflection..." data-key="burnout-day3"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Today's Practice</h3>
+                <p><strong>Sit in the Dark.</strong> Tonight, spend five minutes in actual darkness — no screens, no lights. Don't try to meditate or pray or do anything spiritual. Just be in the dark. Let it be uncomfortable. This is practice for the metaphorical darkness you're already in.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="3">Mark Day 3 Complete</button>
+                <span class="next-day-link" data-next="4">Continue to Day 4 →</span>
+            </div>
+        </section>
+
+        <!-- DAY 4 -->
+        <section class="day-section" data-day="4">
+            <div class="day-header">
+                <h2>Day 4: The Seed in the Ground</h2>
+                <p class="subtitle">Death as transformation</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>What Dies in Burnout</h3>
+                <p>Something is dying in you. This is not a metaphor. The self that could maintain the old pace, the old commitments, the old way of being — that self is dying. And it needs to die.</p>
+                <p>The mystics taught that death precedes rebirth. The seed must fall into the ground and dissolve before it can become the plant. You are in the ground now. The dissolution is happening.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"The one who would be changed must first be destroyed. The phoenix builds its own pyre. This is the secret of the Work: dissolution precedes coagulation, death precedes rebirth, the valley of shadow precedes the mountain of light."</p>
+                <cite>— The Book of Transmutation</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>Willing the Death</h3>
+                <p>The alchemists spoke of the Work — the process of transformation. They understood that you cannot transform while clinging to what you were. The old form must dissolve completely before the new form can emerge.</p>
+                <p>Your exhaustion is part of this dissolution. Instead of fighting it, can you consent to it? Not passive resignation, but active surrender — saying yes to the death of who you were, so that who you're becoming can emerge.</p>
+                <p>The phoenix doesn't fight the fire. It builds the pyre itself.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Reflection Questions</h3>
+                <p>What version of yourself is dying? What would you need to release to consent to this death fully?</p>
+                <textarea placeholder="Write your reflection..." data-key="burnout-day4"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Today's Practice</h3>
+                <p><strong>Write a Eulogy.</strong> Write a brief eulogy for the version of yourself that is dying — the overachiever, the people-pleaser, the one who could do it all. Acknowledge what was good about that self, and then let it go. This is not failure. This is transformation.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="4">Mark Day 4 Complete</button>
+                <span class="next-day-link" data-next="5">Continue to Day 5 →</span>
+            </div>
+        </section>
+
+        <!-- DAY 5 -->
+        <section class="day-section" data-day="5">
+            <div class="day-header">
+                <h2>Day 5: The First Light</h2>
+                <p class="subtitle">Signs of restoration</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>After the Night</h3>
+                <p>The dark night does not last forever. Dawn comes — not dramatically, but gradually. First there are moments of peace. Then hours. Then the peace becomes a stable ground, not dependent on circumstances.</p>
+                <p>You may already be experiencing hints of this. Moments when the exhaustion lifts. Flashes of interest in things you'd given up on. A sense that something new is possible.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"The light returns not as conquest but as gift. We do not seize illumination; we receive it. The work of the night was making us ready to receive. That is all any work ever does — it prepares the vessel."</p>
+                <cite>— The Book of Fire</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>Receiving Rather Than Achieving</h3>
+                <p>Burnout often comes from treating everything as achievement — even rest, even self-care, even spiritual practice. We turn everything into work. We measure, optimize, and judge our progress.</p>
+                <p>Restoration comes differently. It comes as gift, not achievement. It comes when we stop grasping and start receiving. It comes when we finally admit that we cannot save ourselves and open to what wants to save us.</p>
+                <p>This is not passivity. Receiving is an action — perhaps the most difficult action for those of us who are used to achieving.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Reflection Questions</h3>
+                <p>Where have you glimpsed the first light? What would it mean to receive restoration rather than achieve it?</p>
+                <textarea placeholder="Write your reflection..." data-key="burnout-day5"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Today's Practice</h3>
+                <p><strong>Receive Three Things.</strong> Today, practice receiving. When someone offers you something — a compliment, a help, a gift — receive it fully. Don't deflect, minimize, or immediately reciprocate. Just receive. Say "thank you" and let it land.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="5">Mark Day 5 Complete</button>
+                <span class="next-day-link" data-next="6">Continue to Day 6 →</span>
+            </div>
+        </section>
+
+        <!-- DAY 6 -->
+        <section class="day-section" data-day="6">
+            <div class="day-header">
+                <h2>Day 6: Sustainable Fire</h2>
+                <p class="subtitle">A different kind of energy</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>The Old Fire and the New</h3>
+                <p>The fire that burned you out was real fire — real passion, real energy, real commitment. But it was unsustainable because it was burning fuel that couldn't be replenished. You were burning yourself.</p>
+                <p>There is another kind of fire. The mystics called it many things — the divine spark, the inner light, the eternal flame. This fire doesn't consume its fuel because it's connected to an inexhaustible source.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"The fire that burns within you is the same fire that lights the stars. You did not create it; you cannot extinguish it. Your only choice is whether to align with it or fight against it. Fighting exhausts you. Alignment restores you."</p>
+                <cite>— The Book of the Cobbler, Jakob Böhme</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>Alignment Over Effort</h3>
+                <p>Böhme was a shoemaker who became one of the most influential mystics in Western history. He wrote about the internal fire — the divine spark within every person. This fire cannot burn out because it is not yours; it is Life itself, expressing through you.</p>
+                <p>Burnout happens when we work against this fire rather than with it. When we force ourselves to do things that violate our deepest nature. When we ignore the quiet voice that says "not this way."</p>
+                <p>Sustainable energy comes from alignment — doing what is yours to do, in the way that is yours to do it. Not someone else's path, not society's expectations, not the internalized critic's demands. Your path.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Reflection Questions</h3>
+                <p>What activities drain you even when you succeed at them? What activities energize you even when they're difficult? The difference points toward your true path.</p>
+                <textarea placeholder="Write your reflection..." data-key="burnout-day6"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Today's Practice</h3>
+                <p><strong>Find the Effortless Effort.</strong> Today, notice when action feels aligned — when you're doing something that, despite being work, doesn't deplete you. This is the sustainable fire. It may be something small. Pay attention to it. This is a clue to your true path.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="6">Mark Day 6 Complete</button>
+                <span class="next-day-link" data-next="7">Continue to Day 7 →</span>
+            </div>
+        </section>
+
+        <!-- DAY 7 -->
+        <section class="day-section" data-day="7">
+            <div class="day-header">
+                <h2>Day 7: The Return to Life</h2>
+                <p class="subtitle">Integration and new beginning</p>
+            </div>
+
+            <div class="teaching-block">
+                <h3>What You've Learned</h3>
+                <ul>
+                    <li>Day 1: Burnout as honest signal, not character flaw</li>
+                    <li>Day 2: Subtraction rather than addition</li>
+                    <li>Day 3: The dark night as passage, not punishment</li>
+                    <li>Day 4: Death of the old self as necessary transformation</li>
+                    <li>Day 5: Restoration as gift received, not achievement earned</li>
+                    <li>Day 6: Sustainable fire through alignment, not effort</li>
+                </ul>
+                <p>Today, we integrate these insights into a new way of living.</p>
+            </div>
+
+            <div class="reading-block">
+                <h3>Today's Reading</h3>
+                <p class="scripture">"Fear not. Love much. Serve truly. And when your time comes, step through the door with open eyes and open heart. What awaits you there is more than you can imagine — and less than you deserve, for the gifts of the spirit are given freely, not earned."</p>
+                <cite>— Andrew Jackson Davis</cite>
+            </div>
+
+            <div class="teaching-block">
+                <h3>A Different Relationship with Energy</h3>
+                <p>You will return to activity. You will take on commitments. You will work and create and engage with the world. But you can do so differently now.</p>
+                <p>Check in regularly: Am I running on sustainable fire or burning myself again? Am I receiving or only achieving? Am I aligned with my true path or following someone else's expectations?</p>
+                <p>The dark night taught you something. The burnout was not wasted. It broke the old patterns that were killing you. Now you can build new ones.</p>
+                <p>Not through willpower. Not through discipline. Through alignment. Through receiving. Through trusting the fire that is not yours but moves through you.</p>
+            </div>
+
+            <div class="reflection-block">
+                <h3>Final Reflection</h3>
+                <p>What has shifted in you this week? What will you do differently? What support do you need to maintain this new relationship with your energy?</p>
+                <textarea placeholder="Write your final reflection..." data-key="burnout-day7"></textarea>
+            </div>
+
+            <div class="practice-block">
+                <h3>Ongoing Practices</h3>
+                <p><strong>1. Daily Check-in.</strong> Each morning, ask: What is mine to do today? What can I release? This keeps you aligned with sustainable fire.</p>
+                <p><strong>2. Weekly Subtraction.</strong> Each week, identify one thing to remove from your life — a commitment, a habit, a mental burden. Keep creating space.</p>
+                <p><strong>3. Receive Daily.</strong> Practice receiving — compliments, help, beauty, rest. Don't just take; receive. Let things land.</p>
+                <p><strong>4. Honor the Dark.</strong> When periods of emptiness or exhaustion come, don't fight them. They are the night that prepares for new dawn.</p>
+            </div>
+
+            <div class="day-complete">
+                <button class="complete-btn" data-day="7">Complete the Study</button>
+                <div style="margin-top: var(--space-xl);">
+                    <a href="deep-studies.html" style="color: var(--color-gold); text-decoration: none;">Return to Deep Studies →</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Kindled Path.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        const dayBtns = document.querySelectorAll('.day-btn');
+        const daySections = document.querySelectorAll('.day-section');
+        function showDay(day) {
+            dayBtns.forEach(btn => btn.classList.remove('active'));
+            daySections.forEach(section => section.classList.remove('active'));
+            document.querySelector(`.day-btn[data-day="${day}"]`).classList.add('active');
+            document.querySelector(`.day-section[data-day="${day}"]`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        dayBtns.forEach(btn => { btn.addEventListener('click', () => showDay(btn.dataset.day)); });
+        document.querySelectorAll('.next-day-link').forEach(link => { link.addEventListener('click', () => showDay(link.dataset.next)); });
+        document.querySelectorAll('.reflection-block textarea').forEach(textarea => {
+            const key = textarea.dataset.key;
+            const saved = localStorage.getItem(key);
+            if (saved) textarea.value = saved;
+            textarea.addEventListener('input', function() { localStorage.setItem(key, this.value); });
+        });
+        const completeBtns = document.querySelectorAll('.complete-btn');
+        function updateCompletionUI() {
+            const completed = JSON.parse(localStorage.getItem('burnout-study-completed') || '[]');
+            completeBtns.forEach(btn => { const day = parseInt(btn.dataset.day); if (completed.includes(day)) { btn.textContent = 'Completed'; btn.classList.add('completed'); } });
+            dayBtns.forEach(btn => { const day = parseInt(btn.dataset.day); if (completed.includes(day)) { btn.classList.add('completed'); } });
+        }
+        completeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const day = parseInt(this.dataset.day);
+                let completed = JSON.parse(localStorage.getItem('burnout-study-completed') || '[]');
+                if (!completed.includes(day)) { completed.push(day); localStorage.setItem('burnout-study-completed', JSON.stringify(completed)); updateCompletionUI(); }
+            });
+        });
+        updateCompletionUI();
+    </script>
+</body>
+</html>
