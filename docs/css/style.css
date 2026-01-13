@@ -25,9 +25,9 @@
     --color-midnight: #0d1117;
 
     /* Typography */
-    --font-display: 'Cormorant Garamond', Georgia, serif;
-    --font-body: 'Crimson Pro', Georgia, serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Lexend', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: 'Lexend', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
     /* Spacing */
     --space-xs: 0.25rem;
