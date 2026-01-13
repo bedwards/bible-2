@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Study the Book of Illumination and Sacrifice with verse numbers, commentary, and cross-references.">
+    <title>Scripture Study | The Path of Illumination</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Crimson+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        .study-header {
+            padding: calc(80px + var(--space-xl)) 0 var(--space-lg);
+            background: var(--color-bg-alt);
+        }
+        .study-header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+        .study-header h1 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--color-text);
+            font-weight: 400;
+        }
+        .study-controls {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+        }
+        .depth-toggle {
+            display: flex;
+            background: var(--color-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .depth-toggle button {
+            padding: var(--space-sm) var(--space-md);
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .depth-toggle button.active {
+            background: var(--color-gold-dark);
+            color: var(--color-bg);
+        }
+        .depth-toggle button:hover:not(.active) {
+            color: var(--color-gold);
+        }
+        .study-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: calc(100vh - 200px);
+        }
+        @media (max-width: 900px) {
+            .study-layout {
+                grid-template-columns: 1fr;
+            }
+            .study-sidebar {
+                display: none;
+            }
+            .study-sidebar.open {
+                display: block;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--color-bg);
+                z-index: 100;
+                overflow-y: auto;
+            }
+        }
+        .study-sidebar {
+            background: var(--color-bg-alt);
+            border-right: 1px solid var(--color-bg);
+            padding: var(--space-lg);
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        .sidebar-section {
+            margin-bottom: var(--space-xl);
+        }
+        .sidebar-section h3 {
+            font-size: 0.75rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-md);
+        }
+        .chapter-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .chapter-list li {
+            margin-bottom: var(--space-xs);
+        }
+        .chapter-list a {
+            display: block;
+            padding: var(--space-xs) var(--space-sm);
+            color: var(--color-text-light);
+            text-decoration: none;
+            font-size: 0.875rem;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .chapter-list a:hover {
+            color: var(--color-gold);
+            border-left-color: var(--color-gold-dark);
+        }
+        .chapter-list a.active {
+            color: var(--color-gold);
+            border-left-color: var(--color-gold);
+            background: rgba(201, 169, 98, 0.1);
+        }
+        .study-main {
+            padding: var(--space-2xl);
+            max-width: 800px;
+        }
+        .book-title {
+            font-family: var(--font-display);
+            font-size: 0.875rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-sm);
+        }
+        .chapter-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--color-text);
+            font-weight: 400;
+            margin-bottom: var(--space-xs);
+        }
+        .chapter-attribution {
+            font-family: var(--font-display);
+            font-style: italic;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-xl);
+        }
+        .verse {
+            margin-bottom: var(--space-lg);
+            position: relative;
+            padding-left: 3rem;
+        }
+        .verse-number {
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--color-gold-dark);
+            width: 2.5rem;
+            text-align: right;
+            cursor: pointer;
+            user-select: none;
+        }
+        .verse-number:hover {
+            color: var(--color-gold);
+        }
+        .verse-number::after {
+            content: '';
+            position: absolute;
+            right: -0.5rem;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--color-gold-dark);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .verse:hover .verse-number::after {
+            opacity: 1;
+        }
+        .verse-text {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+        .verse-text.poetry {
+            font-style: italic;
+            padding-left: var(--space-lg);
+            border-left: 2px solid var(--color-gold-dark);
+        }
+        .verse.teaching {
+            background: var(--color-bg-alt);
+            padding: var(--space-lg);
+            padding-left: calc(3rem + var(--space-lg));
+            margin-left: calc(-3rem);
+            border-left: 3px solid var(--color-gold);
+        }
+        .verse.teaching .verse-text {
+            font-style: italic;
+        }
+        .teaching-label {
+            font-size: 0.75rem;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-xs);
+        }
+        /* Layered depth - commentary */
+        .verse-commentary {
+            display: none;
+            margin-top: var(--space-md);
+            padding: var(--space-md);
+            background: var(--color-bg-alt);
+            border-left: 2px solid var(--color-gold-dark);
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            line-height: 1.7;
+        }
+        .verse.expanded .verse-commentary {
+            display: block;
+        }
+        .verse-sources {
+            display: none;
+            margin-top: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: var(--color-bg);
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+        .verse.expanded.deep .verse-sources {
+            display: block;
+        }
+        .verse-sources a {
+            color: var(--color-gold);
+        }
+        /* Cross references */
+        .cross-refs {
+            display: none;
+            margin-top: var(--space-sm);
+            font-size: 0.8rem;
+        }
+        .verse.expanded .cross-refs {
+            display: block;
+        }
+        .cross-refs span {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--color-bg);
+            color: var(--color-gold);
+            margin-right: var(--space-xs);
+            margin-bottom: var(--space-xs);
+            cursor: pointer;
+        }
+        .cross-refs span:hover {
+            background: var(--color-gold-dark);
+            color: var(--color-bg);
+        }
+        /* Citation toast */
+        .citation-toast {
+            position: fixed;
+            bottom: var(--space-xl);
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--color-gold-dark);
+            color: var(--color-bg);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: 4px;
+            font-size: 0.875rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .citation-toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        /* Chapter navigation */
+        .chapter-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--space-2xl);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--color-bg-alt);
+        }
+        .chapter-nav a {
+            color: var(--color-gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+        .chapter-nav a:hover {
+            color: var(--color-gold-light);
+        }
+        /* Why This Matters banner */
+        .relevance-banner {
+            background: linear-gradient(135deg, rgba(201, 169, 98, 0.15) 0%, rgba(201, 169, 98, 0.05) 100%);
+            border: 1px solid var(--color-gold-dark);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+        .relevance-banner h3 {
+            color: var(--color-gold);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-sm);
+        }
+        .relevance-banner p {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">The Path</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="scripture.html">Scripture</a></li>
+                <li><a href="teachings.html">Teachings</a></li>
+                <li><a href="martyrs.html">The Martyrs</a></li>
+                <li><a href="practices.html">Practices</a></li>
+                <li><a href="study-guide.html">Study Guide</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="study-header">
+        <div class="study-header-content">
+            <h1>Scripture Study Mode</h1>
+            <div class="study-controls">
+                <div class="depth-toggle">
+                    <button class="active" data-depth="clean">Clean</button>
+                    <button data-depth="commentary">Commentary</button>
+                    <button data-depth="deep">Deep Study</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="study-layout">
+        <aside class="study-sidebar">
+            <div class="sidebar-section">
+                <h3>Part I: The Whisperings</h3>
+                <ul class="chapter-list">
+                    <li><a href="#journey-1" class="active">Journey 1: Conference of the Birds</a></li>
+                    <li><a href="#journey-2">Journey 2: The Affliction</a></li>
+                    <li><a href="#journey-3">Journey 3: Divan of Shams</a></li>
+                    <li><a href="#journey-4">Journey 4: Flashes of Light</a></li>
+                    <li><a href="#journey-5">Journey 5: The Hidden Treasure</a></li>
+                    <li><a href="#journey-6">Journey 6: The Mathnawi</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3>Book of Transmutation</h3>
+                <ul class="chapter-list">
+                    <li><a href="#transmutation-7">7: Aurora and the Heavens</a></li>
+                    <li><a href="#transmutation-8">8: The Tincture</a></li>
+                    <li><a href="#transmutation-9">9: The Mineral World</a></li>
+                    <li><a href="#transmutation-10">10: Treasury of Alchemy</a></li>
+                    <li><a href="#transmutation-11">11: Chemical Wedding</a></li>
+                    <li><a href="#transmutation-12">12: Book of Lambspring</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3>Part II: The Illuminations</h3>
+                <ul class="chapter-list">
+                    <li><a href="#jacopo-1">Jacopo 1: Birth and Youth</a></li>
+                    <li><a href="#jacopo-2">Jacopo 2: Awakening to Liberty</a></li>
+                    <li><a href="#jacopo-3">Jacopo 3: Young Italy</a></li>
+                    <li><a href="#jacopo-4">Jacopo 4: The Imprisonment</a></li>
+                    <li><a href="#jacopo-5">Jacopo 5: The Sacrifice</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="study-main">
+            <!-- Why This Matters Now Banner -->
+            <div class="relevance-banner">
+                <h3>Why This Matters Now</h3>
+                <p>In an age when authoritarian movements rise again, when democratic institutions shake, when people are executed for their beliefs — the martyrs of 1833-1849 speak directly to us. They faced the same choice: submit to tyranny or resist, knowing the cost. Their wisdom is not historical curiosity. It is urgent instruction.</p>
+            </div>
+
+            <article id="journey-1">
+                <p class="book-title">The Book of the Journey</p>
+                <h2 class="chapter-title">Chapter 1: The Conference of the Birds</h2>
+                <p class="chapter-attribution">Farid ud-Din Attar, 12th century Persia</p>
+
+                <div class="verse" data-verse="Journey 1:1">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:1')">1</span>
+                    <p class="verse-text">In the time before time was counted as men count it now, the birds of the world gathered in great assembly.</p>
+                    <div class="verse-commentary">
+                        <p>Attar opens with a mythic frame — "before time was counted" — signaling that this is not ordinary history but eternal truth. The "birds of the world" represent all seekers, all souls, all those who sense there is something more.</p>
+                    </div>
+                    <div class="verse-sources">
+                        <strong>Source:</strong> <a href="https://archive.org/search?query=conference+birds+attar" target="_blank">Mantiq al-Tayr, Archive.org</a>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:2">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:2')">2</span>
+                    <p class="verse-text">The Hoopoe, crowned with wisdom, spoke unto them: "Beyond the seven valleys lies the Simurgh, the King of Birds. Who among you will make the journey?"</p>
+                    <div class="verse-commentary">
+                        <p>The Hoopoe (hudhud) in Islamic tradition served King Solomon and thus knows the ways of the divine court. The Simurgh — a mythical Persian bird — represents ultimate reality, the Divine, the goal of all seeking. Seven valleys symbolize stages of spiritual development.</p>
+                    </div>
+                    <div class="cross-refs">
+                        <span onclick="goToVerse('Journey 6:4')">Journey 6:4</span>
+                        <span onclick="goToVerse('Fire 21:3')">Fire 21:3</span>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:3">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:3')">3</span>
+                    <p class="verse-text">Ten thousand birds rose in answer. But the Hoopoe warned them:</p>
+                    <div class="verse-commentary">
+                        <p>The initial enthusiasm of seekers. Ten thousand respond — but how many will complete the journey? The warning that follows separates the curious from the committed.</p>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:4">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:4')">4</span>
+                    <p class="verse-text">"The first valley is the Valley of the Quest, where you must abandon all you believe you know. The second is the Valley of Love, where reason burns away like morning mist. The third is the Valley of Knowledge, where every certainty dissolves. The fourth is the Valley of Detachment, where desire itself must die. The fifth is the Valley of Unity, where the many become one. The sixth is the Valley of Bewilderment, where wisdom and foolishness are the same. The seventh is the Valley of Poverty and Annihilation, where the self is extinguished utterly."</p>
+                    <div class="verse-commentary">
+                        <p>The seven valleys (haft vadi) are Attar's map of the spiritual journey. Each valley requires a death: of certainty, of reason, of knowledge, of desire, of separation, of understanding, and finally of self. Note the paradox: knowledge is abandoned in the Valley of Knowledge; wisdom fails in Bewilderment. This is the via negativa — the path of unknowing.</p>
+                    </div>
+                    <div class="cross-refs">
+                        <span onclick="goToVerse('Fire 19:2')">Fire 19:2</span>
+                        <span onclick="goToVerse('Fire 20:1')">Fire 20:1</span>
+                        <span onclick="goToVerse('Cobbler 14:3')">Cobbler 14:3</span>
+                    </div>
+                    <div class="verse-sources">
+                        <strong>Parallel texts:</strong> Compare Teresa of Ávila's seven dwelling places (Fire 21), the alchemical stages (Transmutation 12), and the Kabbalistic sefirot.
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:5">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:5')">5</span>
+                    <p class="verse-text">Hearing this, many birds fell away. The nightingale spoke of her love for the rose and would not leave. The hawk spoke of his throne with the king and would not descend. The owl spoke of his treasure of gold and would not abandon it.</p>
+                    <div class="verse-commentary">
+                        <p>Each bird represents an attachment that prevents the journey. The nightingale: romantic attachment, beauty worship. The hawk: worldly power and status. The owl: material wealth. These are not evil things — they are good things that become obstacles when clung to. The question for us: what is our rose, our throne, our treasure?</p>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:6">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:6')">6</span>
+                    <p class="verse-text">But thirty birds remained. Thirty birds crossed the valleys. In each valley, some perished. Through fire and flood and the death of all they knew, they pressed forward.</p>
+                    <div class="verse-commentary">
+                        <p>From ten thousand to thirty. The attrition is severe — and honest. Most seekers turn back. The journey costs everything. "The death of all they knew" — each valley strips away another layer of certainty, another support, until nothing remains but the journey itself.</p>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:7">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:7')">7</span>
+                    <p class="verse-text">And when at last the thirty birds reached the court of the Simurgh, they found no king upon a throne.</p>
+                    <div class="verse-commentary">
+                        <p>The great reversal begins. After all they have endured, after crossing seven valleys, they find... nothing they expected. No external monarch. No reward. The disappointment must have been devastating — until the next verse.</p>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:8">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:8')">8</span>
+                    <p class="verse-text">They found only a mirror.</p>
+                    <div class="verse-commentary">
+                        <p>One of the most profound images in mystical literature. The entire journey — to find a mirror. But what does a mirror show you? Yourself. The destination was never external.</p>
+                    </div>
+                </div>
+
+                <div class="verse" data-verse="Journey 1:9">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:9')">9</span>
+                    <p class="verse-text">And in the mirror, they saw themselves — <em>si murgh</em>, thirty birds — and understood at last: the seeker and the sought were never separate. The journey was not toward something external but toward the recognition of what always was.</p>
+                    <div class="verse-commentary">
+                        <p>The pun that unlocks everything: "Simurgh" (the mythical king) sounds like "si murgh" (thirty birds in Persian). They sought the Simurgh; they found si murgh — themselves. The seeker IS the sought. This is not wordplay but revelation: the Divine you seek is not separate from you. The journey was never acquisition but recognition.</p>
+                    </div>
+                    <div class="cross-refs">
+                        <span onclick="goToVerse('Journey 4:5')">Journey 4:5</span>
+                        <span onclick="goToVerse('Journey 5:4')">Journey 5:4</span>
+                        <span onclick="goToVerse('Transmutation 9:6')">Transmutation 9:6</span>
+                        <span onclick="goToVerse('Wisdom 24:3')">Wisdom 24:3</span>
+                    </div>
+                </div>
+
+                <div class="verse teaching" data-verse="Journey 1:10">
+                    <span class="verse-number" onclick="copyVerse('Journey 1:10')">10</span>
+                    <p class="teaching-label">The First Teaching</p>
+                    <p class="verse-text">That which you seek, you already are. But to know this, you must die to everything you believe yourself to be.</p>
+                    <div class="verse-commentary">
+                        <p><strong>This is the foundational teaching of the entire scripture.</strong> It contains both promise and demand. The promise: you already possess what you're looking for. The demand: to realize this requires the death of your current identity. Not physical death, but the dissolution of the ego-self, the constructed persona, the "everything you believe yourself to be." The journey of the thirty birds was precisely this death — valley by valley, they lost everything until only the essential remained.</p>
+                        <p><strong>Contemporary application:</strong> In an age of AI disruption, when our skills and roles can be automated, this teaching offers unexpected comfort. What you truly are cannot be automated, cannot be made obsolete, cannot be taken away. But to access it, you must stop clinging to the external identities that are being disrupted.</p>
+                    </div>
+                    <div class="cross-refs">
+                        <span onclick="goToVerse('Transmutation 7:8')">Teaching 7</span>
+                        <span onclick="goToVerse('Transmutation 9:6')">Teaching 9</span>
+                        <span onclick="goToVerse('Wisdom 24:4')">Teaching 24</span>
+                    </div>
+                </div>
+
+                <nav class="chapter-nav">
+                    <span></span>
+                    <a href="#journey-2">Chapter 2: The Affliction &rarr;</a>
+                </nav>
+            </article>
+        </main>
+    </div>
+
+    <div class="citation-toast" id="citationToast">Citation copied!</div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 The Path of Illumination. All sacred texts are in the public domain.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Depth toggle
+        const depthButtons = document.querySelectorAll('.depth-toggle button');
+        depthButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                depthButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const depth = this.dataset.depth;
+
+                document.querySelectorAll('.verse').forEach(verse => {
+                    verse.classList.remove('expanded', 'deep');
+                    if (depth === 'commentary') {
+                        verse.classList.add('expanded');
+                    } else if (depth === 'deep') {
+                        verse.classList.add('expanded', 'deep');
+                    }
+                });
+            });
+        });
+
+        // Click verse to expand/collapse in clean mode
+        document.querySelectorAll('.verse').forEach(verse => {
+            verse.addEventListener('click', function(e) {
+                if (e.target.classList.contains('verse-number')) return;
+                if (document.querySelector('.depth-toggle button[data-depth="clean"]').classList.contains('active')) {
+                    this.classList.toggle('expanded');
+                }
+            });
+        });
+
+        // Copy verse citation
+        function copyVerse(citation) {
+            navigator.clipboard.writeText(citation).then(() => {
+                const toast = document.getElementById('citationToast');
+                toast.textContent = `Copied: ${citation}`;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
+        // Navigate to verse (placeholder)
+        function goToVerse(verse) {
+            alert(`Navigate to ${verse} - full navigation coming soon`);
+        }
+
+        // Store reading progress in localStorage
+        function markVerseRead(verse) {
+            let progress = JSON.parse(localStorage.getItem('readingProgress') || '{}');
+            progress[verse] = Date.now();
+            localStorage.setItem('readingProgress', JSON.stringify(progress));
+        }
+
+        // Highlight verses user has read
+        function highlightReadVerses() {
+            const progress = JSON.parse(localStorage.getItem('readingProgress') || '{}');
+            Object.keys(progress).forEach(verse => {
+                const el = document.querySelector(`[data-verse="${verse}"]`);
+                if (el) {
+                    el.style.borderLeftColor = 'var(--color-gold-dark)';
+                }
+            });
+        }
+        highlightReadVerses();
+    </script>
+</body>
+</html>
