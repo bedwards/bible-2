@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="The Illumination: Ancient wisdom for those who sense there is more. When the old answers fail, the mystics and martyrs light the way.">
-    <title>The Illumination | Ancient Wisdom for Modern Seekers</title>
+    <meta name="description" content="The Kindled Path: Ancient wisdom for those who sense there is more. When the old answers fail, the mystics and martyrs light the way.">
+    <title>The Kindled Path | Ancient Wisdom for Modern Seekers</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -501,6 +501,101 @@
             color: var(--color-gold-light);
         }
 
+        /* BEGIN SECTION */
+        .begin-section {
+            padding: var(--space-3xl) var(--space-lg);
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                var(--color-bg);
+            position: relative;
+        }
+        .begin-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-gold-dark), transparent);
+        }
+        .begin-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .begin-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+        .begin-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            color: var(--color-text);
+            margin-bottom: var(--space-sm);
+        }
+        .begin-header p {
+            font-size: 1.1rem;
+            color: var(--color-gold);
+            letter-spacing: 0.1em;
+        }
+        .begin-week {
+            background: linear-gradient(145deg, var(--color-bg-alt) 0%, var(--color-bg-light) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            padding: var(--space-xl);
+        }
+        .begin-week ol {
+            list-style: none;
+            counter-reset: day-counter;
+            margin: 0;
+            padding: 0;
+        }
+        .begin-week li {
+            counter-increment: day-counter;
+            position: relative;
+            padding: var(--space-md) 0 var(--space-md) var(--space-2xl);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            color: var(--color-text-light);
+            line-height: 1.7;
+        }
+        .begin-week li:last-child {
+            border-bottom: none;
+        }
+        .begin-week li::before {
+            content: "Day " counter(day-counter);
+            position: absolute;
+            left: 0;
+            top: var(--space-md);
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .begin-week li strong {
+            color: var(--color-text);
+        }
+        .begin-cta {
+            text-align: center;
+            margin-top: var(--space-xl);
+        }
+        .begin-cta a {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--color-gold);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--color-gold-dark);
+            transition: all 0.3s ease;
+        }
+        .begin-cta a:hover {
+            border-color: var(--color-gold);
+            color: var(--color-gold-light);
+        }
+
         /* CALL TO ACTION */
         .cta-final {
             padding: var(--space-3xl) var(--space-lg);
@@ -593,7 +688,7 @@
 <body>
     <nav class="main-nav">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">The Illumination</a>
+            <a href="index.html" class="nav-logo">The Kindled Path</a>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
@@ -613,7 +708,7 @@
     <section class="hero-dramatic">
         <div class="hero-content-main">
             <div class="brand-symbol"></div>
-            <h1 class="hero-title-main">The Illumination</h1>
+            <h1 class="hero-title-main">The Kindled Path</h1>
             <p class="hero-subtitle-main">Ancient Wisdom for Modern Seekers</p>
             <p class="hero-wisdom">"That which you seek, you already are. But to know this, you must die to everything you believe yourself to be."</p>
             <div class="hero-cta-group">
@@ -720,6 +815,30 @@
         </div>
     </section>
 
+    <!-- HOW TO BEGIN -->
+    <section class="begin-section">
+        <div class="begin-inner">
+            <div class="begin-header">
+                <h2>How to Begin</h2>
+                <p>Your First Week</p>
+            </div>
+            <div class="begin-week">
+                <ol>
+                    <li>Read <a href="pages/scripture/chapter-01.html">The Conference of the Birds</a> slowly. Let the story of the thirty birds settle into your imagination.</li>
+                    <li>Read the first teaching: <em>"That which you seek, you already are."</em> Sit with it. What does it mean? What would it mean if it were true?</li>
+                    <li>Try the <a href="pages/practices.html">Morning Awakening</a> practice. Before rising, remember: "I am not separate from the Divine."</li>
+                    <li>Read the <a href="pages/martyrs.html#jacopo">Gospel According to Jacopo</a>. Who was he? What did his death mean?</li>
+                    <li>Practice presence. Throughout the day, pause and notice: <em>This moment is sacred. There is no separation between mundane and holy.</em></li>
+                    <li>Read three more <a href="pages/teachings.html">teachings</a>. Choose the ones that challenge you, not the ones that comfort you.</li>
+                    <li>Rest. Review the week. What has shifted? What questions have arisen?</li>
+                </ol>
+            </div>
+            <div class="begin-cta">
+                <a href="pages/about.html#begin">Continue Your Journey</a>
+            </div>
+        </div>
+    </section>
+
     <!-- FINAL CTA -->
     <section class="cta-final">
         <div class="cta-final-inner">
@@ -736,7 +855,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>The Illumination</h4>
+                    <h4>The Kindled Path</h4>
                     <p>Ancient wisdom for modern seekers. A path for those who sense there is more. All source texts are in the public domain.</p>
                 </div>
                 <div class="footer-section">
@@ -765,7 +884,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 The Illumination. All sacred texts are in the public domain.</p>
+                <p>&copy; 2026 The Kindled Path. All sacred texts are in the public domain.</p>
                 <p class="footer-quote">"That which you seek, you already are."</p>
             </div>
         </div>
