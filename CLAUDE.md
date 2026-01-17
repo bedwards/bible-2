@@ -52,6 +52,32 @@ The Pattern that runs through all gathered texts:
     - Book of Witnesses
 - `INDEX.md` - Comprehensive reference (thematic, persons, chronological, symbols)
 
+### Source Texts (`/sources/`)
+Original public domain texts downloaded and organized for reference.
+
+**Organization pattern:**
+```
+/sources/
+  clean_source.py           # Cleaning script for OCR artifacts
+  /attar-conference-of-birds/
+    raw.txt                  # Original download from Archive.org
+    cleaned.txt              # Cleaned version (page numbers, ALL CAPS fixed)
+  /rumi-mathnawi/
+    raw.txt
+    cleaned.txt
+  ...
+```
+
+**Adding new source texts:**
+1. Download raw text from Archive.org, Project Gutenberg, or Sacred-Texts.com
+2. Create organized subdirectory in `/sources/`
+3. Run `clean_source.py` to remove OCR artifacts:
+   - Page numbers like "(10)", "(lO)", "(i6)"
+   - ALL CAPS section headers → Title Case
+   - Common OCR errors (^^, '', hyphenated line breaks)
+4. Add original text section to corresponding chapter page
+5. Link to 2-3 external sources (prefer Project Gutenberg if available)
+
 ### Website (`/docs/`)
 - `index.html` - Homepage with hero, overview, featured content
 - `css/style.css` - Dark theme with gold accents, responsive design
@@ -89,6 +115,48 @@ The Pattern that runs through all gathered texts:
 - Historically grounded (all texts verifiable)
 - Philosophically serious but accessible
 - Interfaith and non-dogmatic
+
+## Scripture Citation Format
+
+Use the format `Book Chapter:Verse` consistently throughout the site:
+- `Journey 1:4` — Book of the Journey, Chapter 1, Verse 4
+- `Transmutation 7:8` — Book of Transmutation, Chapter 7, Verse 8
+- `Fire 28:5` — Book of Fire, Chapter 28, Verse 5
+- `Cobbler 17:4` — Book of the Cobbler, Chapter 17, Verse 4
+
+Verses are paragraph-based within each chapter. Citation format in HTML:
+```html
+<cite>— Journey 20:4</cite>
+<cite>— Book of the Cobbler, Journey 17:4</cite>
+<cite>— The Dark Night of the Soul, Journey 20:2</cite>
+```
+
+## Original Source Text Display
+
+Each scripture chapter page should include the complete, unadulterated original source text below the teaching. Structure:
+
+```html
+<section class="original-source">
+    <h2>Original Source Text</h2>
+    <p class="source-attribution">
+        From <em>The Conference of the Birds</em> by Farid ud-Din Attar,
+        translated by C.S. Nott (1954)
+    </p>
+    <div class="source-links">
+        <a href="https://archive.org/...">Archive.org</a>
+        <a href="https://sacred-texts.com/...">Sacred-Texts.com</a>
+    </div>
+    <div class="source-text">
+        <!-- Cleaned, complete original text -->
+    </div>
+</section>
+```
+
+**Key principles:**
+- Original text is complete and unadulterated
+- Include 2-3 links to external sources (prefer Project Gutenberg)
+- Cleaning removes only OCR artifacts, not content
+- Emphasis on the original expands the site, never reduces it
 
 ## The 29 Teachings
 

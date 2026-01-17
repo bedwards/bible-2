@@ -111,6 +111,79 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
+
+        /* Original Source Text Section */
+        .original-source {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-lg);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .original-source h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--color-gold);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+        .source-attribution {
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: var(--space-md);
+        }
+        .source-attribution em {
+            color: var(--color-text-light);
+        }
+        .source-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
+        }
+        .source-links a {
+            font-size: 0.85rem;
+            color: var(--color-gold);
+            text-decoration: none;
+            padding: var(--space-xs) var(--space-md);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+        .source-links a:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--color-gold);
+        }
+        .source-text {
+            background: var(--color-bg-alt);
+            padding: var(--space-xl);
+            border-left: 3px solid rgba(212, 175, 55, 0.3);
+        }
+        .source-text h3 {
+            font-size: 1.1rem;
+            color: var(--color-gold);
+            margin-bottom: var(--space-md);
+            font-weight: 400;
+        }
+        .source-text p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--color-text-light);
+            margin-bottom: var(--space-md);
+        }
+        .source-text p:last-child {
+            margin-bottom: 0;
+        }
+        .source-section {
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .source-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
     </style>
 </head>
 <body>
